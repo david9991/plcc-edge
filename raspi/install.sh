@@ -8,6 +8,10 @@ if [ $(whoami) != "root" ]; then
 	exit 1
 fi
 
+echo "Stopping existing services..."
+systemctl stop plcc-edge.service
+systemctl stop node-red.service
+
 if [ -z $MACADDR ]; then
 	echo "Please enter Mac Address of your wired ethernet device"
 	exit 1
