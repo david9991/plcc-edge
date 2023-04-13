@@ -67,10 +67,24 @@ RestartSec=5s
 [Install]
 WantedBy=default.target
 EOF
+cat <<EOF > /etc/systemd/system/ecat-networking.service
+[Unit]
+Description=EtherCAT Networking
+
+[Service]
+ExecStart=ifconfig ecat1 up
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=default.target
+EOF
 
 systemctl enable plcc-edge.service
 systemctl enable node-red.service
+systemctl enable ecat-networking.service
 systemctl restart plcc-edge.service
 systemctl restart node-red.service
+systemctl restart ecat-networking.service
 
 echo "Done!"
