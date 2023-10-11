@@ -41,7 +41,7 @@ SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="${MACADDR}", ATT
 EOF
 
 echo "Installing Node-Red..."
-curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered | sudo -u $USER bash -
+curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered | sudo -u $USER bash -s -- -s -- --confirm-install --node18
 
 echo "Setting up services..."
 cat <<EOF > /etc/systemd/system/plcc-edge.service
