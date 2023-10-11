@@ -25,7 +25,7 @@ if [ -z $USER ]; then
 fi
 
 echo "Installing Dependencies..."
-apt update && apt install -y build-essential git curl && apt clean
+apt update && apt install -y build-essential git curl npm && apt clean
 
 echo "Installing Edge Controller..."
 curl --location -o /usr/local/bin/edge https://github.com/david9991/plcc-edge/raw/main/raspi/edge
