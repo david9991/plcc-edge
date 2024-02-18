@@ -4,6 +4,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 MACADDR=$1
 USER=$2
+SEED=$3
 
 if [ $(whoami) != "root" ]; then
 	echo "Please run as root"
@@ -24,12 +25,17 @@ if [ -z $USER ]; then
 	exit 1
 fi
 
+if [ -z $SEED ]; then
+	echo "Please enter the private seed"
+	exit 1
+fi
+
 echo "Installing Dependencies..."
 apt update && apt install -y build-essential git curl npm && apt clean
 
 echo "Installing Edge Controller..."
-curl --location -o /usr/local/bin/edge https://github.com/david9991/plcc-edge/raw/main/raspi/edge
-chmod +x /usr/local/bin/edge
+curl --location -o /usr/local/bin/plcc-blockchain-tools https://github.com/david9991/plcc-edge/raw/main/raspi/plcc-blockchain-tools
+chmod +x /usr/local/bin/plcc-blockchain-tools
 
 echo "Installing Real-Time Kernel..."
 curl --location -o /tmp/linux-image-5.4.83-rt46-raspi_5.4.83-1_arm64.deb https://github.com/david9991/plcc-edge/raw/main/raspi/linux-image-5.4.83-rt46-raspi_5.4.83-1_arm64.deb
@@ -49,7 +55,7 @@ cat <<EOF > /etc/systemd/system/plcc-edge.service
 Description=PLCC Edge service
 
 [Service]
-ExecStart=/usr/local/bin/edge --name RaspberryPi4B
+ExecStart=/usr/local/bin/plcc-blockchain-tools edge --sec-seed=$SEED 'RaspberryPi 4B'
 Restart=on-failure
 RestartSec=5s
 
